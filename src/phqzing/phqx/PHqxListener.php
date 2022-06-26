@@ -3,7 +3,7 @@
 namespace phqzing\phqx;
 
 use pocketmine\event\Listener;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\{EntityDamageByEntityEvent, EntityTeleportEvent};
 use pocketmine\event\player\{PlayerQuitEvent, PlayerChatEvent, PlayerMoveEvent};
 use pocketmine\player\Player;
 use pocketmine\event\server\DataPacketReceiveEvent;
@@ -47,6 +47,11 @@ class PHqxListener implements Listener {
             case ".inject":
                 if(!$player->hasPermission("phqzing.phqx.cheats")) return;
                 $ev->cancel();
+                if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds")))
+                {
+                    $player->sendMessage("§8[§4PHQX§8] §3This plugin has been §cdisabled §3in this world");
+                    return;
+                }
                 if(!is_null(Manager::getPlayer($player->getName()))) return;
                 PHqx::getInstance()->db->executeSelect("phqx.get", ["name" => $player->getName()], function(array $rows)use($player){
                     if(empty($rows))
@@ -58,10 +63,13 @@ class PHqxListener implements Listener {
                             $killaura = (isset($result["killaura"]) and $result["killaura"] != "none") ? json_decode($result["killaura"], true) : null;
                             $reach = (isset($result["reach"]) and $result["reach"] != "none") ? json_decode($result["reach"], true) : null;
                             $speed = (isset($result["speed"]) and $result["speed"] != "none") ? json_decode($result["speed"], true) : null;
-                            $antikb = $result["killaura"] ?? null;
+                            $antikb = $result["antikb"] ?? null;
                         }
             
-                        if(!is_null($speed) and $speed["enabled"]) $player->setMovementSpeed($speed["amount"]);
+                        if(!is_null($speed) and $speed["enabled"] and !in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds"))) 
+                        {
+                            $player->setMovementSpeed($speed["amount"]);
+                        }
 
                         Manager::initPlayer($player->getName(), $killaura, $reach, $speed, $antikb);
                     }
@@ -174,6 +182,7 @@ class PHqxListener implements Listener {
                     Manager::getPlayer($player->getName())->toggleSpeed(false);
                 }else{
                     $player->sendMessage("§8[§2PHQX§8] §3Speed has been turned §aON");
+                    $player->setMovementSpeed($player_session->getSpeedAmount());
                     Manager::getPlayer($player->getName())->toggleSpeed(true);
                 }
             break;
@@ -196,6 +205,21 @@ class PHqxListener implements Listener {
                     Manager::getPlayer($player->getName())->toggleAntiKB(true);
                 }
             break;
+        }
+    }
+
+
+    public function onTeleport(EntityTeleportEvent $ev):void
+    {
+        $player = $ev->getEntity();
+
+        if(!($player instanceof Player)) return;
+
+        if(!is_null(Manager::getPlayer($player->getName())) and in_array($ev->getTo()->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds")))
+        {
+            Manager::savePlayer($player->getName());
+            $player->sendMessage("§8[§4PHQX§8] §3Auto §cejected §3because the plugin is §cdisabled §3in this world");
+            return;
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace phqzing\phqx\session;
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 use phqzing\phqx\PHqx;
 
@@ -19,6 +20,7 @@ class Manager {
     public static function initPlayer(string $name, ?array $killaura = null, ?array $reach = null, ?array $speed = null, bool $antikb = false):void
     {
         self::$players[$name] = new PlayerSession($killaura, $reach, $speed, $antikb);
+        if(is_null($speed) and ($player = Server::getInstance()->getPlayerExact($name)) instanceof Player) $player->setMovementSpeed(0.12);
     }
 
     

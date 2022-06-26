@@ -16,7 +16,7 @@ class PlayerSession {
         ],
         "speed" => [
             "enabled" => false,
-            "amount" => 2
+            "amount" => 0.12
         ],
         "antikb" => false
     ];
