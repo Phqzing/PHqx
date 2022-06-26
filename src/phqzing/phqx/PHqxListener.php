@@ -182,7 +182,7 @@ class PHqxListener implements Listener {
                     Manager::getPlayer($player->getName())->toggleSpeed(false);
                 }else{
                     $player->sendMessage("§8[§2PHQX§8] §3Speed has been turned §aON");
-                    $player->setMovementSpeed($player_session->getSpeedAmount());
+                    $player->setMovementSpeed(Manager::getPlayer($player->getName())->getSpeedAmount());
                     Manager::getPlayer($player->getName())->toggleSpeed(true);
                 }
             break;
@@ -256,24 +256,24 @@ class PHqxListener implements Listener {
     public function onDataReceive(DataPacketReceiveEvent $event):void
     {
         $packet = $event->getPacket();
-	if($packet::NETWORK_ID == LevelSoundEventPacket::NETWORK_ID and $packet instanceof LevelSoundEventPacket) 
-	{
-	    $player = $event->getOrigin()->getPlayer();
-	    if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds"))) return;
-	    if($player instanceof Player and $packet->sound == LevelSoundEvent::ATTACK_NODAMAGE)
-	    {
-		if(!is_null($player_session = Manager::getPlayer($player->getName())) and $player_session->isReachEnabled())
-		{
-		    $start = $player->getLocation()->asVector3()->add(0, $player->getEyeHeight(), 0);
-		    $radius = $player_session->getReachAmount();
-		    $end =  $start->addVector($player->getDirectionVector()->multiply($radius));
+        if($packet::NETWORK_ID == LevelSoundEventPacket::NETWORK_ID and $packet instanceof LevelSoundEventPacket) 
+        {
+            $player = $event->getOrigin()->getPlayer();
+            if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds"))) return;
+            if($player instanceof Player and $packet->sound == LevelSoundEvent::ATTACK_NODAMAGE)
+            {
+                if(!is_null($player_session = Manager::getPlayer($player->getName())) and $player_session->isReachEnabled())
+                {
+                    $start = $player->getLocation()->asVector3()->add(0, $player->getEyeHeight(), 0);
+                    $radius = $player_session->getReachAmount();
+                    $end =  $start->addVector($player->getDirectionVector()->multiply($radius));
 
-		    $result = $this->plugin->raycast($player, $start, $end, $radius);
-		    if(is_null($result)) return;
+                    $result = $this->plugin->raycast($player, $start, $end, $radius);
+                    if(is_null($result)) return;
 
-		    $this->plugin->attackEntity($player, $result);
-		}
-	    }
-	}
+                    $this->plugin->attackEntity($player, $result);
+                }
+            }
+        }
     }
 }
