@@ -180,8 +180,6 @@ class PHqx extends PluginBase {
             $blockDist = $player->getPosition()->distance($hitBlock);
             $entityDist = $player->getPosition()->distance($hitEntity->getPosition());
 
-            var_dump($entityDist);
-            var_dump($blockDist);
             if($entityDist < $blockDist) return $hitEntity;
             return null;
         }
