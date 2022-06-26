@@ -29,6 +29,7 @@ class KillAuraTask extends Task {
     {
         if(($player = $this->plugin->getServer()->getPlayerExact($this->name)) instanceof Player)
         {
+            if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds"))) return;
             if(!is_null($player_session = Manager::getPlayer($this->name)) and $player_session->isKillAuraEnabled())
             {
                 $radius = $player_session->getKillAuraReach();
