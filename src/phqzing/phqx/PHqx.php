@@ -127,9 +127,9 @@ class PHqx extends PluginBase {
                             $player->sendMessage("§8[§4PHQX§8] §3Invalid speed amount given! amount must be numeric");
                             return;
                         }
-                        if($value >= 3 or $value <= 0.10)
+                        if($value > 3 or $value <= 0.10)
                         {
-                            $player->sendMessage("§8[§4PHQX§8] §3Invalid speed amount given! amount must be less than 3 and more than 0.10");
+                            $player->sendMessage("§8[§4PHQX§8] §3Invalid speed amount given! amount must be less than or equals to 3 and more than 0.10");
                             return;
                         }
                         if($value == $player_session->getSpeedAmount()) return;
