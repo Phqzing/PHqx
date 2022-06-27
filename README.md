@@ -3,7 +3,7 @@
 <a href="https://poggit.pmmp.io/p/PHqx-Client"><img src="https://poggit.pmmp.io/shield.state/PHqx-Client"></a>
 # About
 - **PHqx or Phqzing Hacks** is a Server Sided Hack "Client" you can use for trolling friends (if you have one) or destroying other people at pvp.
-- I am planning on updating this often and adding more features so if you have any suggestions feel free to dm me on Discord or open up an [Issue](https://github.com/Phqzing/PHax/issues)
+- I am planning on updating this often and adding more features so if you have any suggestions feel free to dm me on Discord or open up an [Issue](https://github.com/Phqzing/PHqx/issues)
 
 # Features
 - Kill Aura
