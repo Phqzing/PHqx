@@ -5,13 +5,11 @@ namespace phqzing\phqx\tasks;
 use pocketmine\scheduler\Task;
 use pocketmine\player\Player;
 use pocketmine\scheduler\CancelTaskException;
-use pocketmine\entity\animation\ArmSwingAnimation;
-
 
 use phqzing\phqx\PHqx;
 use phqzing\phqx\session\Manager;
 
-class KillAuraTask extends Task {
+class AutoMessageTask extends Task {
 
 
     private $plugin;
@@ -30,18 +28,10 @@ class KillAuraTask extends Task {
         if(($player = $this->plugin->getServer()->getPlayerExact($this->name)) instanceof Player)
         {
             if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds"))) throw new CancelTaskException();
-            if(!is_null($player_session = Manager::getPlayer($this->name)) and $player_session->isKillAuraEnabled())
+            if(!is_null($player_session = Manager::getPlayer($this->name)) and $player_session->isAutoMessageEnabled() and !empty($msges = $player_session->getMessages()) and $player_session->settings["automessage"]["per-second"])
             {
-                $radius = $player_session->getKillAuraReach();
-                foreach($player->getWorld()->getNearbyEntities($player->getBoundingBox()->expandedCopy($radius, $radius, $radius)) as $entity)
-                {
-                    if($entity instanceof Player)
-                    {
-                        if($entity->getName() == $player->getName()) continue;
-                        $player->broadcastAnimation(new ArmSwingAnimation($player));
-                        $this->plugin->attackEntity($player, $entity);
-                    }
-                }
+                $msg = $msges[array_rand($msges)];
+                $player->chat($msg);
             }else{
                 throw new CancelTaskException();
             }

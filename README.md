@@ -1,6 +1,6 @@
 # Download 
-[![](https://poggit.pmmp.io/shield.state/PHqx-Client)](https://poggit.pmmp.io/p/PHqx-Client)
-<a href="https://poggit.pmmp.io/p/PHqx-Client"><img src="https://poggit.pmmp.io/shield.state/PHqx-Client"></a>
+[![](https://poggit.pmmp.io/shield.dl/PHqx-Client)](https://poggit.pmmp.io/p/PHqx-Client)
+<a href="https://poggit.pmmp.io/p/PHqx-Client"><img src="https://poggit.pmmp.io/shield.dl/PHqx-Client"></a>
 # About
 - **PHqx or Phqzing Hacks** is a Server Sided Hack "Client" you can use for trolling friends (if you have one) or destroying other people at pvp.
 - I am planning on updating this often and adding more features so if you have any suggestions feel free to dm me on Discord or open up an [Issue](https://github.com/Phqzing/PHax/issues)
@@ -10,8 +10,21 @@
 - Reach
 - Speed
 - Anti Knockback
+- Phase
+- Auto Message
+- Tap To Teleport
 - GUI (for editing settings)
-
+# TODO (for 0.0.2)
+- [x] Add Phase hack (Not yet perfect)
+- [x] Add Auto Message
+- [x] Add Tap to Teleport
+- [x] Auto update database
+# TODO (for 0.0.3)
+- [ ] Add Chest Stealer
+- [ ] Add Free Cam
+- [ ] Add No Fall Damage
+- [ ] Add Scaffhold
+- [ ] Add Aimbot
 # Commands and Config
 ### Commands
 ```
@@ -22,10 +35,14 @@
 .toggle reach
 .toggle speed
 .toggle antikb
+.toggle phase
+.toggle automessage
+.toggle taptoteleport
 .killaura edit
 .reach edit
 .speed edit
 .antikb edit
+.automessage edit
 ```
 For more info just type ".help" in chat and it will show you the commands and what it's used for
 

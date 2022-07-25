@@ -5,7 +5,7 @@ namespace phqzing\phqx\session;
 class PlayerSession {
 
 
-    private $settings = [
+    public $settings = [
         "killaura" => [
             "enabled" => false,
             "reach" => 4
@@ -18,16 +18,29 @@ class PlayerSession {
             "enabled" => false,
             "amount" => 0.12
         ],
-        "antikb" => false
+        "automessage" => [
+            "enabled" => false,
+            "on-kill" => true,
+            "per-second" => false,
+            "messages" => []
+        ],
+        "antikb" => false,
+        "phase" => false,
+        "taptotp" => false,
+        "cheststealer" => false
     ];
 
 
-    public function __construct(?array $killaura = null, ?array $reach = null, ?array $speed = null, ?bool $antikb = null)
+    public function __construct(?array $killaura = null, ?array $reach = null, ?array $speed = null, ?array $automessage = null, ?bool $antikb = null, ?bool $phase = null, ?bool $taptotp = null, ?bool $cheststealer = null)
     {
         if(!is_null($killaura)) $this->settings["killaura"] = $killaura;
         if(!is_null($reach)) $this->settings["reach"] = $reach;
         if(!is_null($speed)) $this->settings["speed"] = $speed;
+        if(!is_null($automessage)) $this->settings["automessage"] = $automessage;
         if(!is_null($antikb)) $this->settings["antikb"] = $antikb;
+        if(!is_null($phase)) $this->settings["phase"] = $phase;
+        if(!is_null($taptotp)) $this->settings["taptotp"] = $taptotp;
+        if(!is_null($cheststealer)) $this->settings["cheststealer"] = $cheststealer;
     }
 
     public function getSettings(string $setting):array|bool
@@ -99,6 +112,27 @@ class PlayerSession {
     }
 
 
+    public function isAutoMessageEnabled():bool
+    {
+        return $this->settings["automessage"]["enabled"];
+    }
+
+    public function toggleAutoMessage(bool $val = true):void
+    {
+        $this->settings["automessage"]["enabled"] = $val;
+    }
+
+    public function getMessages():array
+    {
+        return $this->settings["automessage"]["messages"];
+    }
+
+    public function setMessages(array $messages = []):void
+    {
+        $this->settings["automessage"]["messages"] = $messages;
+    }
+
+
     public function isAntiKBEnabled():bool
     {
         return $this->settings["antikb"];
@@ -107,5 +141,38 @@ class PlayerSession {
     public function toggleAntiKB(bool $val = true):void
     {
         $this->settings["antikb"] = $val;
+    }
+
+    
+    public function isPhaseEnabled():bool
+    {
+        return $this->settings["phase"];
+    }
+
+    public function togglePhase(bool $val = true):void
+    {
+        $this->settings["phase"] = $val;
+    }
+
+
+    public function isTapToTpEnabled():bool
+    {
+        return $this->settings["taptotp"];
+    }
+
+    public function toggleTapToTp(bool $val = true):void
+    {
+        $this->settings["taptotp"] = $val;
+    }
+
+
+    public function isChestStealerEnabled():bool
+    {
+        return $this->settings["cheststealer"];
+    }
+
+    public function toggleChestStealer(bool $val = true):void
+    {
+        $this->settings["cheststealer"] = $val;
     }
 }

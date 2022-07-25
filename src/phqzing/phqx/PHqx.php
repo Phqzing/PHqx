@@ -16,14 +16,25 @@ use pocketmine\event\player\PlayerExhaustEvent;
 
 use phqzing\phqx\libs\poggit\libasynql\libasynql;
 use phqzing\phqx\libs\dktapps\pmforms\{CustomForm, CustomFormResponse};
-use phqzing\phqx\libs\dktapps\pmforms\element\{Label, Slider, Input};
+use phqzing\phqx\libs\dktapps\pmforms\element\{Label, Slider, Input, Toggle};
 
+use phqzing\phqx\tasks\AutoMessageTask;
 use phqzing\phqx\session\Manager;
 
 class PHqx extends PluginBase {
 
 
     private static $instance;
+    private static $columns = [
+        "killaura",
+        "reach",
+        "speed",
+        "automessage",
+        "antikb",
+        "phase",
+        "taptotp",
+        "cheststealer"
+    ];
     public $db;
 
 
@@ -33,6 +44,20 @@ class PHqx extends PluginBase {
         $this->saveDefaultConfig();
         $this->db = libasynql::create($this, $this->getConfig()->get("database"), ["sqlite" => "settings.sql"]);
         $this->db->executeGeneric("phqx.init");
+        
+        // checking if there is a missing column (for future updates)
+        foreach(self::$columns as $i => $column)
+        {
+            $this->db->executeSelect("phqx.check", ["column" => $column], function(array $val)use($column)
+            {
+                if($val[0]["CNTREC"] == 0)
+                {
+                    $this->db->executeGeneric("phqx.addcolumn.{$column}");
+                    $this->getLogger()->info("§aCrated §6{$column}");
+                }
+            });
+        }
+
         $this->getServer()->getPluginManager()->registerEvents(new PHqxListener($this), $this);
     }
 
@@ -137,6 +162,35 @@ class PHqx extends PluginBase {
                         $player_session->setSpeedAmount((float)$value);
                         $player->setMovementSpeed((float)$value);
                         $player->sendMessage("§8[§2PHQX§8] §3Speed amount has been set to §e{$value}");
+                    }
+                );
+
+                $player->sendForm($form);
+            break;
+
+            case "automessage":
+                $form = new CustomForm(
+                    "§l§3Speed Settings",
+                    [
+                        new Label("automessagelabel", "§7Note: You can add multiple messages by separating them with (:) for example: ".'"'."Hello:Hi:Gg:Gf:Have fun!".'".'),
+                        new Input("automessageinput", "§3Message(s)", "", implode(":", $player_session->getMessages())),
+                        new Toggle("automessagetoggle1", "§3Message On Kill", $player_session->settings["automessage"]["on-kill"]),
+                        new Toggle("automessagetoggle2", "§3Message Per Second", $player_session->settings["automessage"]["per-second"])
+                    ],
+                    function(Player $player, CustomFormResponse $data)use($player_session):void
+                    {
+                        $msges = explode(":", $data->getString("automessageinput"));
+                        $on_kill = $data->getBool("automessagetoggle1");
+                        $per_second = $data->getBool("automessagetoggle2");
+
+                        $player_session->setMessages($msges);
+                        $player_session->settings["automessage"]["on-kill"] = $on_kill;
+                        if($player_session->settings["automessage"]["per-second"] != $per_second)
+                        {
+                            if($per_second) $this->getScheduler()->scheduleRepeatingTask(new AutoMessageTask($this, $player->getName()), 20);
+                            $player_session->settings["automessage"]["per-second"] = $per_second;
+                        }
+                        $player->sendMessage("§8[§2PHQX§8] §3Auto Message successfully updated");
                     }
                 );
 

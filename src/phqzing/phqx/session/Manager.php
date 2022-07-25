@@ -17,10 +17,9 @@ class Manager {
         PHqx::getInstance()->db->executeInsert("phqx.insert", ["name" => $name]);
     }
 
-    public static function initPlayer(string $name, ?array $killaura = null, ?array $reach = null, ?array $speed = null, bool $antikb = false):void
+    public static function initPlayer(string $name, ?array $killaura = null, ?array $reach = null, ?array $speed = null, ?array $automessage = null, ?bool $antikb = null, ?bool $phase = null, ?bool $taptotp = null, ?bool $cheststealer = null):void
     {
-        self::$players[$name] = new PlayerSession($killaura, $reach, $speed, $antikb);
-        if(is_null($speed) and ($player = Server::getInstance()->getPlayerExact($name)) instanceof Player) $player->setMovementSpeed(0.12);
+        self::$players[$name] = new PlayerSession($killaura, $reach, $speed, $automessage, $antikb, $phase, $taptotp, $cheststealer);
     }
 
     
@@ -38,13 +37,18 @@ class Manager {
         $killaura = json_encode($player->getSettings("killaura"));
         $reach = json_encode($player->getSettings("reach"));
         $speed = json_encode($player->getSettings("speed"));
+        $automessage = json_encode($player->getSettings("automessage"));
 
         PHqx::getInstance()->db->executeChange("phqx.save", [
             "name" => $name,
             "killaura" => $killaura,
             "reach" => $reach,
             "speed" => $speed,
-            "antikb" => $player->getSettings("antikb")
+            "automessage" => $automessage,
+            "antikb" => $player->getSettings("antikb"),
+            "phase" => $player->getSettings("phase"),
+            "taptotp" => $player->getSettings("taptotp"),
+            "cheststealer" => $player->getSettings("cheststealer")
         ]);
 
         unset(self::$players[$name]);
