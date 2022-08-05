@@ -5,5 +5,5 @@ api: 4.0.0
 main: phqzing\phqx\PHqx
 
 permissions:
-  phqzing.phqx.cheats:
+  phqx.phqzing.cheats:
     default: op
