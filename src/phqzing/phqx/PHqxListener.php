@@ -40,13 +40,13 @@ class PHqxListener implements Listener {
         switch(strtolower($ev->getMessage()))
         {
             case ".help":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing..cheats")) return;
                 $ev->cancel();
                 $player->sendMessage("§b[§3All PHqx Commands§b]\n §8- §e.inject §7(Activates the cheat and loads all your previous settings)\n §8- §e.eject §7(Deactivates the cheat and saves your settings)\n §8- §e.settings §7(Edit and save your settings through a GUI)\n §8- §e.toggle killaura §7(Turns on or off kill aura)\n §8- §e.killaura edit §7(Shows a form UI where you can edit your kill aura settings)\n §8- §e.toggle reach §7(Turns on or off reach)\n §8- §e.reach edit §7(Shows a form UI where you can edit your reach settings)\n §8- §e.toggle speed §7(Turns on or off speed)\n §8- §e.speed edit §7(Shows a form UI where you can edit your speed settings)\n §8- §e.toggle automessage §7(Turns on or off automessage)\n §8- §e.automessage edit §7(Shows a form UI where you can edit your automessage settings)\n §8- §e.toggle antikb §7(Turns on or off antikb)\n §8- §e.toggle phase §7(Turns on or off phase)\n §8- §e.toggle taptotp §7(Turns on or off tap to teleport)\n §8- §e.toggle cheststealer §7(Turns on or off chest stealer)");
             break;
 
             case ".inject":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(in_array($player->getWorld()->getFolderName(), $this->plugin->getConfig()->get("black-listed-worlds")))
                 {
@@ -93,7 +93,7 @@ class PHqxListener implements Listener {
             break;
 
             case ".eject":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(!is_null(Manager::getPlayer($player->getName())))
                 {
@@ -107,7 +107,7 @@ class PHqxListener implements Listener {
             break;
 
             case "settings":
-                if(!$player->hasPermission("phqzing.phax.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -120,7 +120,7 @@ class PHqxListener implements Listener {
 
             case ".ka edit":
             case ".killaura edit":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -133,7 +133,7 @@ class PHqxListener implements Listener {
             
             case ".toggle ka":
             case ".toggle killaura":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -153,7 +153,7 @@ class PHqxListener implements Listener {
 
 
             case ".reach edit":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -165,7 +165,7 @@ class PHqxListener implements Listener {
             break;
 
             case ".toggle reach":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -184,7 +184,7 @@ class PHqxListener implements Listener {
 
 
             case ".speed edit":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -196,7 +196,7 @@ class PHqxListener implements Listener {
             break;
 
             case ".toggle speed":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -217,7 +217,7 @@ class PHqxListener implements Listener {
 
 
             case ".toggle antikb":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -236,7 +236,7 @@ class PHqxListener implements Listener {
 
 
             case ".toggle phase":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -256,7 +256,7 @@ class PHqxListener implements Listener {
 
 
             case ".automessage edit":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -269,7 +269,7 @@ class PHqxListener implements Listener {
 
 
             case ".toggle automessage":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -290,7 +290,7 @@ class PHqxListener implements Listener {
 
             case ".toggle taptoteleport":
             case ".toggle taptotp":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
@@ -309,7 +309,7 @@ class PHqxListener implements Listener {
 
 
             case ".toggle cheststealer":
-                if(!$player->hasPermission("phqzing.phqx.cheats")) return;
+                if(!$player->hasPermission("phqx.phqzing.cheats")) return;
                 $ev->cancel();
                 if(is_null(Manager::getPlayer($player->getName())))
                 {
