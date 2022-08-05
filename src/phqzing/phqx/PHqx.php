@@ -53,7 +53,6 @@ class PHqx extends PluginBase {
                 if($val[0]["CNTREC"] == 0)
                 {
                     $this->db->executeGeneric("phqx.addcolumn.{$column}");
-                    $this->getLogger()->info("§aCrated §6{$column}");
                 }
             });
         }
